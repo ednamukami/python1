@@ -19,6 +19,11 @@ class BankAccount:
         return f"The amount has been sent to {self.acccountNumber}" 
 
     def deposit(self,amount):
+        try:
+            10+amount
+        except TypeError:
+            return f"The amount must be in figures"
+
         if amount >0:
             self.balance=amount
             
@@ -30,7 +35,7 @@ class BankAccount:
             }
             self.statement.append(transaction1)
         return f"Your balance is {self.balance}"
-    def show_statement(self):
+    def show_statement(self): 
         for transation in self.statement:
             amount=transation["amount"]
             narration=transation["narration"]
@@ -42,6 +47,10 @@ class BankAccount:
         return self.statement
     
     def withdraw(self,amount):
+        try:
+            10+amount
+        except TypeError:
+            return f"your amount should be in figures"    
         if amount <0:
             return f"your balance is {self.balance} you cannot withdraw"
         else:    
@@ -61,6 +70,10 @@ class BankAccount:
 
         
     def borrow(self,amount):
+        try:
+            11+amount
+        except TypeError:
+            return f"The amount should be in figures"    
 
         if amount<0:
             return "You are not qualified"
@@ -85,6 +98,10 @@ class BankAccount:
 
         
     def repay(self,amount):
+        try:
+            10+amount
+        except TypeError:
+            return f"the amount should be in figures"    
         if amount<0:
             return"you have not settled your balance"
         elif amount<=self.loan:
@@ -103,4 +120,38 @@ class BankAccount:
         self.statement.append(transaction4)
         return f"your loan balance is fully settled your new account balance is {difference}"
             
+    def transfer(self,amount,account):
+        try:
+            10+amount
+        except TypeError:
+            return f"the amount should be in figures"
+        fee=amount*0.05
+        total=amount+fee
+    
+        if amount <0:
+            return f"you are not qualified to make the transfer"
+        elif total>self.balance:
+            return f"your balance is {self.balance} and you need atleast {total} for this transfer"
+        else:
+            account.deposit(2800000)
+            self.balance=total
+            return f"the amount has been tansferred to the account number"
 
+class Mobile_moneyAccount(BankAccount):
+
+    def __init__(self, name, phone_number,service_provider):
+        BankAccount.__init__(name, phone_number)
+        self.service_provider=service_provider
+
+    def buy_airtime(self,amount):
+        try:
+            10+amount
+        except TypeError:
+            return f"the amount should be in figures"
+        if amount<0:
+            return f"you have insufficient funds"
+        elif amount>self.balance:
+            return f"we can not complete the transaction as requested"                       
+        else:
+            self.balance-=amount
+            return f"your request has been successfull you will recieve {amount} shortly"
